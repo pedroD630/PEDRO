@@ -6,18 +6,19 @@ import { Home, UtensilsCrossed, Dumbbell, Moon, BarChart2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { href: "/dashboard", icon: Home, label: "Home" },
-  { href: "/alimentacao", icon: UtensilsCrossed, label: "Alimentação" },
-  { href: "/treino", icon: Dumbbell, label: "Treino" },
-  { href: "/sono", icon: Moon, label: "Sono" },
-  { href: "/insights", icon: BarChart2, label: "Insights" },
+  { href: "/dashboard",   icon: Home,            label: "Home" },
+  { href: "/alimentacao", icon: UtensilsCrossed,  label: "Alimentação" },
+  { href: "/treino",      icon: Dumbbell,         label: "Treino" },
+  { href: "/sono",        icon: Moon,             label: "Sono" },
+  { href: "/insights",    icon: BarChart2,        label: "Insights" },
 ];
 
 export function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] bg-surface border-t border-border safe-bottom z-50">
+    // md:hidden — on desktop the SideNav takes over
+    <nav className="fixed bottom-0 left-0 right-0 md:hidden bg-surface border-t border-border safe-bottom z-50">
       <div className="flex items-center justify-around h-16 px-2">
         {navItems.map(({ href, icon: Icon, label }) => {
           const isActive = pathname === href || pathname.startsWith(href + "/");

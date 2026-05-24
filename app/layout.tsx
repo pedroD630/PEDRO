@@ -31,9 +31,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className="dark">
       <body className={`${inter.variable} font-sans bg-background`}>
-        <div className="mx-auto max-w-[430px] min-h-screen relative">
-          {children}
-        </div>
+        {children}
       </body>
     </html>
   );

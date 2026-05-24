@@ -15,6 +15,7 @@ import {
   WORKOUT_EXERCISES,
 } from "@/constants/seed-data/workouts";
 import { SKILL_PROGRESSIONS } from "@/constants/seed-data/skill-progressions";
+import { RECIPES } from "@/constants/seed-data/recipes";
 
 // ── Guard ─────────────────────────────────────────────────────
 export async function GET() {
@@ -239,6 +240,35 @@ export async function POST() {
     else results.skill_progression_exercises = count ?? rows.length;
   } catch (e) {
     errors.push(`skill_progression_exercises: ${String(e)}`);
+  }
+
+  // ── 8. recipes ───────────────────────────────────────────
+  try {
+    const recipeUUID = (slug: string) => slugToUUID(`recipe:${slug}`);
+
+    const rows = RECIPES.map((r) => ({
+      id: recipeUUID(r.id),
+      name: r.name,
+      category: r.category,
+      prep_time_min: r.prep_time_min,
+      calories: r.calories,
+      protein_g: r.protein_g,
+      cost_brl: r.cost_brl,
+      ingredients: r.ingredients,
+      steps: r.steps,
+      substitutions: r.substitutions,
+      calorie_tips: r.calorie_tips,
+      is_system: true,
+    }));
+
+    const { error, count } = await supabase
+      .from("recipes")
+      .upsert(rows, { onConflict: "id", count: "exact" });
+
+    if (error) errors.push(`recipes: ${error.message}`);
+    else results.recipes = count ?? rows.length;
+  } catch (e) {
+    errors.push(`recipes: ${String(e)}`);
   }
 
   // ── Response ──────────────────────────────────────────────
