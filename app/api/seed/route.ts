@@ -158,6 +158,11 @@ export async function POST() {
 
   // ── 5. exercises ─────────────────────────────────────────
   try {
+    // Build slug → exercise_type lookup from catalog constants
+    const catalogTypeBySlug = Object.fromEntries(
+      EXERCISE_CATALOG.map((e) => [e.slug, e.exercise_type])
+    );
+
     const rows = WORKOUT_EXERCISES.map((ex) => ({
       id: exUUID(ex.id),
       variation_id: varUUID(ex.variation_id),
@@ -169,7 +174,8 @@ export async function POST() {
       reps_max: ex.reps_max,
       duration_seconds: ex.duration_seconds,
       rest_seconds: ex.rest_seconds ?? 60,
-      exercise_type: "calisthenics" as const, // resolved from catalog at query time
+      // derive exercise_type from catalog so the column stays in sync
+      exercise_type: catalogTypeBySlug[ex.catalog_id] ?? "calisthenics",
       training_style: ex.training_style,
       order_index: ex.order_index,
       notes: ex.notes,

@@ -122,7 +122,6 @@ export const EXERCISE_CATALOG: CatalogEntry[] = [
   { slug: "wall_hspu",         name: "Wall Handstand Push-up", exercise_type: "calisthenics", primary_muscles: ["all_delts","triceps"],      secondary_muscles: [],  movement_pattern: "push",  difficulty_level: "advanced" },
   { slug: "hspu_negative",     name: "Handstand Push-up Negativo", exercise_type: "calisthenics", primary_muscles: ["all_delts","triceps"], secondary_muscles: [],  movement_pattern: "push",  difficulty_level: "advanced" },
   { slug: "hspu",              name: "Handstand Push-up",   exercise_type: "calisthenics", primary_muscles: ["all_delts","triceps"],          secondary_muscles: [],  movement_pattern: "push",  difficulty_level: "elite" },
-  { slug: "scapula_dip",       name: "Scapula Dip",         exercise_type: "calisthenics", primary_muscles: ["lower_traps","serratus"],       secondary_muscles: [],  movement_pattern: "push",  difficulty_level: "beginner" },
 ];
 
 /** Lookup: slug → index in EXERCISE_CATALOG (for fast access) */
