@@ -1,7 +1,21 @@
-# Nestjs specific
-/dist
-/node_modules
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Next.js
+.next/
+out/
+
+# PWA generated files
+public/sw.js
+public/workbox-*.js
+public/worker-*.js
+public/fallback-*.js
+
+# Build
 /build
+/dist
 /tmp
 
 # Logs
@@ -13,12 +27,22 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
-# dotenv environment variable files
+# Environment — NEVER commit .env.local
 .env
+.env.local
 .env.development
+.env.development.local
 .env.test
+.env.test.local
 .env.production
+.env.production.local
 
-# temp directory
+# Temp
 .temp
 .tmp
+.DS_Store
+*.pem
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
