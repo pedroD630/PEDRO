@@ -120,6 +120,9 @@ export async function POST() {
       id: slotUUID(s.id),
       routine_id: routineUUID(s.routine_id),
       slot_name: s.slot_name,
+      // default_order (001 schema, NOT NULL) mirrors default_day_of_week
+      default_order: s.default_day_of_week,
+      // Added by migration 003 — safe to include after running it
       default_day_of_week: s.default_day_of_week,
       default_day_label: s.default_day_label,
     }));
