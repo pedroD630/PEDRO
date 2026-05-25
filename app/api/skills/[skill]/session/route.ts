@@ -32,7 +32,7 @@ export async function POST(
   // ── 1. Buscar progressão + exercícios do nível ────────────
   const { data: prog, error: progErr } = await supabase
     .from("skill_progressions")
-    .select("id, progression_level, skill_progression_exercises(*)")
+    .select("id, progression_level, progression_name, skill_progression_exercises(*)")
     .eq("skill", skill)
     .eq("progression_level", body.progression_level)
     .maybeSingle();
@@ -86,7 +86,23 @@ export async function POST(
     );
   }
 
-  // ── 4. Contar sessões consecutivas bem-sucedidas ─────────
+  // ── 4. Registrar como workout_session ────────────────────
+  const skillLabel = skill
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase()); // "PLANCHE" → "Planche"
+
+  const progressionName = (prog as any).progression_name as string;
+  const sessionStart = new Date(`${body.session_date}T00:00:00`).toISOString();
+
+  await supabase.from("workout_sessions").insert({
+    variation_id: null,
+    started_at: sessionStart,
+    finished_at: new Date().toISOString(),
+    status: "completed",
+    notes: `Skill: ${skillLabel} — ${progressionName}`,
+  });
+
+  // ── 5. Contar sessões consecutivas bem-sucedidas ─────────
   let consecutive_successes = 0;
 
   if (all_targets_met) {
