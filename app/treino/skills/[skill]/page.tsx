@@ -48,6 +48,7 @@ interface ProgExercise {
   duration_seconds: number | null;
   notes: string | null;
   order_index: number;
+  exercise_catalog?: { slug: string; name: string } | null;
 }
 
 interface Progression {
@@ -116,7 +117,10 @@ export default function SkillSessionPage() {
       .from("skill_progressions")
       .select(`
         id, progression_level, progression_name, description,
-        skill_progression_exercises(catalog_id, sets, reps, duration_seconds, notes, order_index)
+        skill_progression_exercises(
+          catalog_id, sets, reps, duration_seconds, notes, order_index,
+          exercise_catalog(slug, name)
+        )
       `)
       .eq("skill", skillKey)
       .eq("progression_level", level)
@@ -272,7 +276,11 @@ export default function SkillSessionPage() {
             {/* Exercise inputs */}
             <div className="space-y-3">
               {progression.exercises.map((ex) => {
-                const name = CATALOG_NAMES[ex.catalog_id] ?? ex.catalog_id;
+                const name =
+                  ex.exercise_catalog?.name ??
+                  CATALOG_NAMES[ex.exercise_catalog?.slug ?? ""] ??
+                  CATALOG_NAMES[ex.catalog_id] ??
+                  ex.catalog_id;
                 const isTimed = ex.duration_seconds !== null && ex.duration_seconds > 0;
                 const target = isTimed
                   ? `${ex.sets} × ${ex.duration_seconds}s`
