@@ -271,6 +271,25 @@ export async function POST() {
     errors.push(`recipes: ${String(e)}`);
   }
 
+  // ── 9. user_skill_level (nível inicial) ─────────────────
+  try {
+    const skills = ["PLANCHE", "MUSCLE_UP", "PISTOL_SQUAT", "V_SIT", "HANDSTAND_PUSH_UP"];
+    const rows = skills.map((skill) => ({
+      skill,
+      current_level: 1,
+      status: "active",
+    }));
+
+    const { error, count } = await supabase
+      .from("user_skill_level")
+      .upsert(rows, { onConflict: "skill", ignoreDuplicates: true, count: "exact" });
+
+    if (error) errors.push(`user_skill_level: ${error.message}`);
+    else results.user_skill_level = count ?? rows.length;
+  } catch (e) {
+    errors.push(`user_skill_level: ${String(e)}`);
+  }
+
   // ── Response ──────────────────────────────────────────────
   const status = errors.length === 0 ? 200 : 207;
   return NextResponse.json(

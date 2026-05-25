@@ -1,6 +1,6 @@
 import { AppShell } from "@/components/layout/AppShell";
 import { Button } from "@/components/ui/button";
-import { Dumbbell, History, Calendar, ChevronRight } from "lucide-react";
+import { Dumbbell, History, Calendar, Star } from "lucide-react";
 import Link from "next/link";
 
 export default function TreinoPage() {
@@ -14,6 +14,12 @@ export default function TreinoPage() {
             <Link href="/treino/hoje">
               <Dumbbell size={20} />
               Treino de hoje
+            </Link>
+          </Button>
+          <Button asChild variant="outline" size="lg" className="w-full justify-start gap-3">
+            <Link href="/treino/skills">
+              <Star size={20} />
+              Skills de calistenia
             </Link>
           </Button>
           <Button asChild variant="outline" size="lg" className="w-full justify-start gap-3">
